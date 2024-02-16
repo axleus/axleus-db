@@ -13,6 +13,11 @@ use Laminas\Stdlib\ArrayObject;
 use DateTimeImmutable;
 use DateTimeZone;
 
+/**
+ *
+ * @package Axleus\Db
+ * @deprecated as of Axleus 1.0.x
+ */
 abstract class AbstractModel extends ArrayObject
 {
     /** @var TableGatewayInterface $gateway */

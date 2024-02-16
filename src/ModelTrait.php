@@ -24,6 +24,7 @@ use Laminas\Stdlib\ArrayUtils;
  * @codingStandardsIgnoreStart
  * @method \Laminas\Db\TableGateway\AbstractTableGateway getAdapter()
  * @codingStandardsIgnoreEnd
+ * @deprecated
  */
 
 use function array_intersect_key;

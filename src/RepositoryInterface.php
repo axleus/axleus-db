@@ -8,8 +8,8 @@ use Laminas\Db\ResultSet\ResultSetInterface;
 
 interface RepositoryInterface
 {
-    public function findOneById(int $id): EntityInterface;
-    public function findOneByColumn(string $column, int|string $value): ResultSetInterface|EntityInterface;
-    public function findManyByColumn(array $titles): ResultSetInterface|array;
-    public function fetchAll(): ResultSetInterface|array;
+    public function findBy(string $column, mixed $value, ?bool $all = false): ResultSetInterface|EntityInterface|array|null;
+    public function findOneBy(string $column, mixed $value): ?EntityInterface;
+    public function findAllBy(string $column, mixed $value): ResultSetInterface|array;
+    public function save(EntityInterface|array $entity): EntityInterface|int;
 }
