@@ -25,7 +25,7 @@ trait RepositoryTrait
      */
     public function save(
         EntityInterface|array $entity,
-        ?string $whereColumn = null,
+        ?string $primaryKey = null,
         ?array $joins = null,
         ?bool $returnArray = false
     ): EntityInterface|int {
@@ -34,26 +34,32 @@ trait RepositoryTrait
             $set = $this->hydrator->extract($entity);
         }
         if ($set === []) {
-            throw new InvalidArgumentException('Repository can not save empty entity.');
+            throw new Exception\InvalidArgumentException('Repository can not save empty entity.');
         }
         try {
-            if (! isset($set['id']) ) {
+            if (! isset($set[$primaryKey]) ) {
                 // insert
                 $this->gateway->insert($set);
                 $set['id'] = $this->gateway->getLastInsertValue();
             } else {
-                if ($whereColumn === null) {
-                    throw new InvalidArgumentException('$whereColumn can not be null for updates');
+                if ($primaryKey === null) {
+                    throw Exception\InvalidArgumentException::invalidPrimaryKey(
+                        static::class,
+                        __METHOD__,
+                        $primaryKey
+                    );
                 }
                 $where = new Where();
+                // update
                 $this->gateway->update(
                     $set,
-                    $where->equalTo($whereColumn, $set[$whereColumn]),
+                    $where->equalTo($primaryKey, $set[$primaryKey]),
                     $joins ?? null
                 );
             }
-        } catch (\Throwable $th) {
-            // will be caught by the commandbus
+        } catch (Exception\InvalidArgumentException $e) {
+            // log this?
+            throw $e;
         }
         if ($returnArray) {
             return $set;

@@ -10,8 +10,6 @@ use Laminas\Db\ResultSet\ResultSetInterface;
 use Laminas\Db\Sql\Where;
 use Laminas\Hydrator\ReflectionHydrator;
 
-use function method_exists;
-
 class AbstractRepository implements RepositoryInterface, RepositoryCommandInterface
 {
     use RepositoryTrait;
@@ -22,26 +20,40 @@ class AbstractRepository implements RepositoryInterface, RepositoryCommandInterf
     ) {
     }
 
-    public function findBy(string $column, mixed $value, ?bool $all = false): ResultSetInterface|EntityInterface|array|null
-    {
+    public function findBy(
+        string $column,
+        mixed $value,
+        ?array $columns = ['*'],
+        ?bool $all = false
+    ): ResultSetInterface|EntityInterface|array|null {
         if ($all) {
             return $this->findAllBy($column, $value);
         }
         return $this->findOneBy($column, $value);
     }
 
-    public function findOneBy(string $column, mixed $value): ?EntityInterface
-    {
+    public function findOneBy(
+        string $column,
+        mixed $value,
+        ?array $columns = ['*']
+    ): ?EntityInterface {
         $where = new Where();
         $where->equalTo($column, $value);
-        /** @var HydratingResult */
+        /** @var AbstractResultset */
         $resultSet = $this->gateway->select($where);
         return $resultSet->current();
     }
 
-    public function findAllBy(string $column, mixed $value): ResultSetInterface|array
-    {
-
+    public function findAllBy(
+        string $column,
+        mixed $value,
+        ?array $columns = ['*']
+    ): ResultSetInterface|array {
+        $where = new Where();
+        $where->equalTo($column, $value);
+        /** @var AbstractResultset */
+        $resultSet = $this->gateway->select($where);
+        return $resultSet;
     }
 
 }
