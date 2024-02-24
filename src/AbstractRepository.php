@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Axleus\Db;
 
-use Laminas\Db\ResultSet\HydratingResultSet;
 use Laminas\Db\ResultSet\AbstractResultSet;
 use Laminas\Db\ResultSet\ResultSetInterface;
 use Laminas\Db\Sql\Where;
+use Laminas\Hydrator\HydratorInterface;
 use Laminas\Hydrator\ReflectionHydrator;
 
 class AbstractRepository implements RepositoryInterface, RepositoryCommandInterface
@@ -16,7 +16,7 @@ class AbstractRepository implements RepositoryInterface, RepositoryCommandInterf
 
     public function __construct(
         private TableGateway $gateway,
-        private ReflectionHydrator $hydrator = new ReflectionHydrator(),
+        private HydratorInterface $hydrator = new ReflectionHydrator(),
     ) {
     }
 
@@ -55,5 +55,4 @@ class AbstractRepository implements RepositoryInterface, RepositoryCommandInterf
         $resultSet = $this->gateway->select($where);
         return $resultSet;
     }
-
 }

@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace Axleus\Db;
 
+use Closure;
+use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\ResultSet\ResultSetInterface;
 use Laminas\Db\Sql\Where;
+use Laminas\Db\TableGateway\TableGatewayInterface;
 use Laminas\Stdlib\ErrorHandler;
-use Axleus\Db\ModelTrait;
 use InvalidArgumentException;
 
 use const E_WARNING;
 
+use function is_array;
 use function lcfirst;
 use function preg_match;
 
@@ -30,8 +33,12 @@ trait RepositoryTrait
         ?bool $returnArray = false
     ): EntityInterface|int {
 
+        $set = [];
         if ($entity instanceof EntityInterface) {
-            $set = $this->hydrator->extract($entity);
+           $set = $this->hydrator->extract($entity);
+           $test = $entity->toArray();
+        } elseif (is_array($entity)) {
+            $set = $entity;
         }
         if ($set === []) {
             throw new Exception\InvalidArgumentException('Repository can not save empty entity.');
@@ -75,7 +82,10 @@ trait RepositoryTrait
         return $this->gateway->select();
     }
 
-    public function delete(EntityInterface $entity): int { }
+    public function delete(?EntityInterface $entity = null, Where|Closure|array|null $where = null): int
+    {
+        return $this->gateway->delete($where);
+    }
 
     public function getTable(): string
     {
