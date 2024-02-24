@@ -9,7 +9,12 @@ declare(strict_types=1);
 
 namespace Axleus\Db;
 
+use Laminas\Hydrator\HydratorAwareInterface;
+
+
 interface EntityInterface
 {
-    public function getId(): array|int|string|null;
+    public function getId(): ?int;
+    public function toArray(): array;
+    public function fromArray(array $data): void;
 }

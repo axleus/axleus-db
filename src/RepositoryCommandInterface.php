@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Axleus\Db;
 
+use Closure;
+use Laminas\Db\Sql\Where;
+
 interface RepositoryCommandInterface
 {
     /**
@@ -11,5 +14,5 @@ interface RepositoryCommandInterface
      * Or an int representing \Laminas\Db\AbstractTableGateway::getLastInsertValue()
      */
     public function save(EntityInterface $entity): EntityInterface|int;
-    public function delete(EntityInterface $entity): int;
+    public function delete(?EntityInterface $entity = null, Where|Closure|array|null $where = null): int;
 }
