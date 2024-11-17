@@ -6,15 +6,17 @@
         "laminas-db",
         "axleus"
     ],
+    "homepage": "https://github.com/orgs/axleus/discussions",
+    "support": {
+        "issues": "https://github.com/axleus/axleus-db/issues",
+        "chat": "https://discord.gg/9TxQ74EPsG"
+    },
     "authors": [
         {
             "name": "Joey Smith",
             "email": "jsmith@webinertia.net",
-            "homepage": "https://github.com/axleus/db/discussions"
         }
     ],
-    "suggest": {
-    },
     "require": {
         "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
         "laminas/laminas-db": "^2.20.0",
