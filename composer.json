@@ -27,7 +27,7 @@
         "axleus/axleus-debug": "dev-master",
         "axleus/axleus-tooling": "dev-master",
         "laminas/laminas-coding-standard": "^3.0",
-        "phpunit/phpunit": "^10.2",
+        "phpunit/phpunit": "^11.0",
         "psalm/plugin-phpunit": "^0.18.4",
         "roave/security-advisories": "dev-master",
         "vimeo/psalm": "^5.14"
